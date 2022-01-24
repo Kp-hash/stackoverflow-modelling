@@ -1,0 +1,65 @@
+
+version: 2
+
+models:
+  - name: TrendingTopics
+    description: "A starter dbt model"
+    columns:
+      - name: SurrogateKey
+        description: "Surrogate key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: accepted_answer_id
+        description: "if user accepted an answer"
+        tests:
+          - is null
+
+models:
+  - name: Post_owners
+    description: "A dimension table holding details of post owners"
+    columns:
+      - name: owner_user_id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: owner_tbl_key
+        description: "Surrogate key for this table"
+        tests:
+          - unique
+          - not_null      
+models:
+  - name: Post_Type
+    description: "The dimensional table for the different post types"
+    columns:
+      - name: post_type_id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: post_tbl_key
+        description: "Surrogate key for this table"
+        tests:
+          - unique
+          - not_null
+models:
+  - name: dim_date
+    description: "The dimensional table for date"
+    columns:
+      - name: tbl_dt
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+  
+
+
+sources:
+  - name: stackoverflow
+    database: bigquery-public-data
+    description: This is the stackoverflow post source from Bigquery
+    schema: stackoverflow
+    tables:
+      - name: stackoverflow_posts
+        
